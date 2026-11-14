@@ -1,6 +1,7 @@
 window.supabaseClient = window.supabase.createClient(
-https://opoxatdlqbzjqvecyjas.supabase.co/rest/v1/
- sb_publishable_5w_YgHK-jugkSH0g-tFDSg_iUgj1fcB
+  'https://opoxatdlqbzjqvecyjas.supabase.co',
+  sb_publishable_5w_YgHK-jugkSH0g-tFDSg_iUgj1fcB
+);
 const pages=[...document.querySelectorAll('.page')];
 function showPage(id){pages.forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===id));document.getElementById('mainNav').classList.remove('open');if(id==='map')renderResult();if(id==='plan')renderSavedPlan();window.scrollTo({top:0,behavior:'smooth'});}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-page]');if(b){e.preventDefault();showPage(b.dataset.page)}});
