@@ -31,6 +31,21 @@ function showPage(id) {
 
 // Saat website pertama kali dibuka, tampilkan halaman akun
 showPage('account');
+// NAVIGASI ANTARHALAMAN
+document.addEventListener('click', function(event) {
+  const target = event.target.closest('[data-page]');
+  if (!target) return;
+
+  event.preventDefault();
+
+  const pageId = target.dataset.page;
+  if (pageId) showPage(pageId);
+});
+
+// MENU HAMBURGER
+document.getElementById('menuToggle')?.addEventListener('click', function() {
+  document.getElementById('mainNav')?.classList.toggle('open');
+});
 const questions=[
 {q:'Aktivitas apa yang paling menarik bagimu?',a:['Membantu dan mendengarkan orang lain','Menganalisis angka atau memecahkan masalah','Membuat desain, tulisan, atau karya kreatif','Mengatur kegiatan dan bekerja dalam tim','Mencoba alat, teknologi, atau kegiatan praktik']},
 {q:'Mata pelajaran atau topik apa yang paling ingin kamu pelajari?',a:['Bahasa dan ilmu sosial','Matematika dan sains','Seni, desain, dan komunikasi','Ekonomi dan kewirausahaan','Teknologi dan keterampilan praktik']},
@@ -198,24 +213,7 @@ document.addEventListener('click', async (event) => {
 
     currentSession = null;
     showAuthMessage('Kamu berhasil keluar dari akun.');
-    showPage('account');
-    document.addEventListener('click', function(event) {
-  const target = event.target.closest('[data-page]');
-
-  if (!target) return;
-
-  event.preventDefault();
-
-  const pageId = target.dataset.page;
-
-  if (pageId) {
-    showPage(pageId);
-  }
-});
-
-document.getElementById('menuToggle')?.addEventListener('click', function() {
-  document.getElementById('mainNav')?.classList.toggle('open');
-});
+   showPage('account');
   } catch (error) {
     showAuthMessage('Gagal keluar: ' + error.message, true);
   } finally {
