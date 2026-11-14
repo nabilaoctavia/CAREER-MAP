@@ -8,21 +8,6 @@ let currentSession = null;
 let authReady = false;
 
 function showPage(id) {
-  
-// EVENT NAVIGASI SEMUA MENU CAREER MAP
-document.addEventListener('click', function(e) {
-  const btn = e.target.closest('[data-page]');
-
-  if (!btn) return;
-
-  showPage(btn.dataset.page);
-});
-
-// TOMBOL HAMBURGER
-document.getElementById('menuToggle')?.addEventListener('click', function() {
-  document.getElementById('mainNav')?.classList.toggle('open');
-});
-
   // Pengguna yang belum login hanya boleh membuka halaman akun
   if (id !== 'account' && (!authReady || !currentSession)) {
     id = 'account';
@@ -36,7 +21,7 @@ document.getElementById('menuToggle')?.addEventListener('click', function() {
     b.classList.toggle('active', b.dataset.page === id);
   });
 
-  document.getElementById('mainNav').classList.remove('open');
+  document.getElementById('mainNav')?.classList.remove('open');
 
   if (id === 'map') renderResult();
   if (id === 'plan') renderSavedPlan();
@@ -44,23 +29,23 @@ document.getElementById('menuToggle')?.addEventListener('click', function() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Saat website pertama kali dibuka, tampilkan halaman akun
-showPage('account');
 // NAVIGASI ANTARHALAMAN
 document.addEventListener('click', function(event) {
   const target = event.target.closest('[data-page]');
   if (!target) return;
 
   event.preventDefault();
-
-  const pageId = target.dataset.page;
-  if (pageId) showPage(pageId);
+  showPage(target.dataset.page);
 });
 
-// MENU HAMBURGER
+// TOMBOL HAMBURGER
 document.getElementById('menuToggle')?.addEventListener('click', function() {
   document.getElementById('mainNav')?.classList.toggle('open');
 });
+
+// TAMPILKAN HALAMAN AWAL
+showPage('account');
+
 const questions=[
 {q:'Aktivitas apa yang paling menarik bagimu?',a:['Membantu dan mendengarkan orang lain','Menganalisis angka atau memecahkan masalah','Membuat desain, tulisan, atau karya kreatif','Mengatur kegiatan dan bekerja dalam tim','Mencoba alat, teknologi, atau kegiatan praktik']},
 {q:'Mata pelajaran atau topik apa yang paling ingin kamu pelajari?',a:['Bahasa dan ilmu sosial','Matematika dan sains','Seni, desain, dan komunikasi','Ekonomi dan kewirausahaan','Teknologi dan keterampilan praktik']},
