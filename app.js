@@ -164,3 +164,21 @@ window.supabaseClient.auth.onAuthStateChange((event, session) => {
   }
 });
 
+// FUNGSI KELUAR DARI AKUN
+document.getElementById('logoutButton')?.addEventListener('click', async () => {
+  const button = document.getElementById('logoutButton');
+  button.disabled = true;
+
+  try {
+    const { error } = await window.supabaseClient.auth.signOut();
+
+    if (error) throw error;
+
+    showAuthMessage('Kamu berhasil keluar dari akun.');
+  } catch (error) {
+    showAuthMessage('Gagal keluar: ' + error.message, true);
+  } finally {
+    button.disabled = false;
+  }
+});
+
