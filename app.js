@@ -119,7 +119,11 @@ document.getElementById('registerButton')?.addEventListener('click', async () =>
     if (error) throw error;
 
     if (data.session) {
-      showAuthMessage('Pendaftaran berhasil. Akun siswa sudah masuk.');
+      currentSession = data.session;
+authReady = true;
+
+showAuthMessage('Login berhasil. Selamat datang di CAREER MAP!');
+showPage('home');
     } else {
       showAuthMessage('Pendaftaran berhasil. Silakan periksa email untuk konfirmasi akun.');
     }
@@ -165,8 +169,22 @@ async function checkAccountSession() {
   const { data, error } = await window.supabaseClient.auth.getSession();
 
   if (error) {
+    authReady = true;
+    currentSession = null;
     showAuthMessage('Tidak dapat memeriksa sesi akun.', true);
+    showPage('account');
     return;
+  }
+
+  currentSession = data.session;
+  authReady = true;
+
+  if (currentSession) {
+    showAuthMessage('Akun sedang masuk: ' + currentSession.user.email);
+    showPage('home');
+  } else {
+    showAuthMessage('Silakan masuk terlebih dahulu.');
+    showPage('account');
   }
 
   if (data.session) {
