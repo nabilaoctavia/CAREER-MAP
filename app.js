@@ -196,7 +196,22 @@ checkAccountSession();
 
 
 // MENAMPILKAN STATUS AKUN SECARA OTOMATIS
+// MENAMPILKAN STATUS AKUN SECARA OTOMATIS
 window.supabaseClient.auth.onAuthStateChange((event, session) => {
+  currentSession = session;
+  authReady = true;
+
+  if (session) {
+    showAuthMessage('Akun sedang masuk: ' + session.user.email);
+
+    if (event === 'SIGNED_IN') {
+      showPage('home');
+    }
+  } else {
+    showAuthMessage('Silakan masuk terlebih dahulu.');
+    showPage('account');
+  }
+});
   if (session) {
     showAuthMessage(
       'Akun sedang masuk: ' + session.user.email
