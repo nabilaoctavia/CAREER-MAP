@@ -47,3 +47,107 @@ function renderSavedPlan(){const p=JSON.parse(localStorage.getItem('cmPlan')||'n
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 document.getElementById('printPlan').addEventListener('click',()=>window.print());renderQuestion();renderSavedPlan();
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error));
+
+
+
+// ===================================
+// FITUR AKUN CAREER MAP - SUPABASE
+// ===================================
+
+const authMessage = document.getElementById('authMessage');
+
+function showAuthMessage(message, isError = false) {
+  if (!authMessage) return;
+  authMessage.textContent = message;
+  authMessage.style.color = isError ? '#c0392b' : '#247a4b';
+}
+
+// PENDAFTARAN AKUN SISWA
+document.getElementById('registerButton')?.addEventListener('click', async () => {
+  const name = document.getElementById('registerName').value.trim();
+  const email = document.getElementById('registerEmail').value.trim();
+  const password = document.getElementById('registerPassword').value;
+
+  if (!name || !email || !password) {
+    showAuthMessage('Nama, email, dan kata sandi harus diisi.', true);
+    return;
+  }
+
+  if (password.length < 8) {
+    showAuthMessage('Kata sandi minimal 8 karakter.', true);
+    return;
+  }
+
+  const button = document.getElementById('registerButton');
+  button.disabled = true;
+  showAuthMessage('Sedang membuat akun...');
+
+  try {
+    const { data, error } = await window.supabaseClient.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { full_name: name },
+        emailRedirectTo: 'https://nabilaoctavia.github.io/CAREER-MAP/'
+      }
+    });
+
+    if (error) throw error;
+
+    if (data.session) {
+      showAuthMessage('Pendaftaran berhasil. Akun siswa sudah masuk.');
+    } else {
+      showAuthMessage('Pendaftaran berhasil. Silakan periksa email untuk konfirmasi akun.');
+    }
+  } catch (error) {
+    showAuthMessage('Pendaftaran gagal: ' + error.message, true);
+  } finally {
+    button.disabled = false;
+  }
+});
+
+// MASUK KE AKUN
+document.getElementById('loginButton')?.addEventListener('click', async () => {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+
+  if (!email || !password) {
+    showAuthMessage('Email dan kata sandi harus diisi.', true);
+    return;
+  }
+
+  const button = document.getElementById('loginButton');
+  button.disabled = true;
+  showAuthMessage('Sedang masuk...');
+
+  try {
+    const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) throw error;
+
+    showAuthMessage('Berhasil masuk dengan akun: ' + data.user.email);
+  } catch (error) {
+    showAuthMessage('Gagal masuk: ' + error.message, true);
+  } finally {
+    button.disabled = false;
+  }
+});
+
+// PERIKSA STATUS LOGIN SAAT HALAMAN DIBUKA
+async function checkAccountSession() {
+  const { data, error } = await window.supabaseClient.auth.getSession();
+
+  if (error) {
+    showAuthMessage('Tidak dapat memeriksa sesi akun.', true);
+    return;
+  }
+
+  if (data.session) {
+    showAuthMessage('Akun sedang masuk: ' + data.session.user.email);
+  }
+}
+
+checkAccountSession();
