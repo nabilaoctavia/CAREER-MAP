@@ -161,3 +161,166 @@
   <script src="app.js"></script>
 </body>
 </html>
+<!doctype html>
+<html lang="id"> 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142b52">
+  <meta name="description" content="CAREER MAP membantu siswa SMA mengeksplorasi minat, informasi karier, studi lanjut, dan rencana karier.">
+  <title>CAREER MAP — Kenali Minatmu</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" data-page="home"><span class="brand-mark">CM</span><span>CAREER <b>MAP</b><small>Explore your future</small></span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Buka menu">☰</button>
+    <nav id="mainNav">
+      <button data-page="home" class="nav-link active">Beranda</button>
+      <button data-page="reflection" class="nav-link">Refleksi Minat</button>
+      <button data-page="map" class="nav-link">Peta Eksplorasi</button>
+      <button data-page="careers" class="nav-link">Jelajah Karier</button>
+      <button data-page="study" class="nav-link">Studi Lanjut</button>
+      <button data-page="plan" class="nav-link">Rencana Karier</button>
+      <button data-page="counsel" class="nav-link">Konsultasi BK</button>
+      <button data-page="account" class="nav-link">Akun</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="account" class="page">
+  <div class="page-heading">
+    <span class="eyebrow">AKUN PENGGUNA</span>
+    <h1>Selamat Datang di CAREER MAP</h1>
+    <p>Masuk atau daftarkan akun untuk menggunakan CAREER MAP.</p>
+  </div>
+
+  <div class="panel plan-form">
+    <h2>Masuk ke Akun</h2>
+
+    <label>Email
+      <input id="loginEmail" type="email" placeholder="Masukkan email">
+    </label>
+
+    <label>Kata Sandi
+      <input id="loginPassword" type="password" placeholder="Masukkan kata sandi">
+    </label>
+
+    <button class="btn primary" id="loginButton" type="button">Masuk</button>
+
+    <hr>
+
+    <h2>Daftar Akun Siswa</h2>
+
+    <label>Nama
+      <input id="registerName" type="text" placeholder="Masukkan nama">
+    </label>
+
+    <label>Email
+      <input id="registerEmail" type="email" placeholder="Masukkan email">
+    </label>
+
+    <label>Kata Sandi
+      <input id="registerPassword" type="password" placeholder="Minimal 8 karakter">
+    </label>
+
+    <button class="btn secondary" id="registerButton" type="button">Daftar sebagai Siswa</button>
+
+    <p id="authMessage" class="save-message" aria-live="polite"></p>
+    <button class="btn secondary" id="logoutButton" type="button">
+  Keluar dari Akun
+</button>
+  </div>
+</section>
+    <section id="home" class="page active">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">MEDIA EKSPLORASI KARIER SISWA SMA</span>
+          <h1>Kenali minatmu,<br><em>rencanakan masa depanmu.</em></h1>
+          <p>Temukan hal yang kamu sukai, kenali berbagai pilihan karier, dan susun langkah kecil menuju masa depan.</p>
+          <div class="hero-actions">
+            <button class="btn primary" data-page="reflection">Mulai eksplorasi <span>→</span></button>
+            <button class="btn secondary" data-page="careers">Jelajahi karier</button>
+          </div>
+          <p class="micro-note">Tidak perlu langsung menentukan satu pekerjaan. Mulailah dengan mengenal berbagai kemungkinan.</p>
+        </div>
+        <div class="hero-art">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="hero-card"><span class="hero-icon">✦</span><small>YOUR FUTURE</small><strong>Many paths.<br>One journey.</strong><div class="path-line">● ─── ● ─── ●</div></div>
+          <span class="float-tag tag-a">Explore</span><span class="float-tag tag-b">Discover</span>
+        </div>
+      </div>
+      <div class="section-heading"><div><span class="eyebrow">MULAI DARI SINI</span><h2>Temukan arah eksplorasimu</h2></div><p>Gunakan fitur sesuai kebutuhanmu.</p></div>
+      <div class="feature-grid">
+        <button class="feature-card" data-page="reflection"><span class="feature-icon blue">✎</span><b>Refleksi Minat</b><small>Kenali aktivitas dan bidang yang menarik bagimu.</small><span class="card-arrow">↗</span></button>
+        <button class="feature-card" data-page="careers"><span class="feature-icon purple">⌕</span><b>Jelajah Karier</b><small>Kenali tugas dan keterampilan berbagai profesi.</small><span class="card-arrow">↗</span></button>
+        <button class="feature-card" data-page="study"><span class="feature-icon gold">▤</span><b>Studi Lanjut</b><small>Telusuri rumpun bidang dan pilihan pendidikan.</small><span class="card-arrow">↗</span></button>
+        <button class="feature-card" data-page="plan"><span class="feature-icon green">✓</span><b>Rencana Karier</b><small>Susun tujuan dan langkah sederhana.</small><span class="card-arrow">↗</span></button>
+      </div>
+      <div class="notice"><span>ⓘ</span><p><b>Perlu diingat:</b> CAREER MAP adalah media eksplorasi, bukan tes psikologi atau alat yang menentukan pekerjaan secara otomatis. Diskusikan pilihanmu dengan Guru BK bila membutuhkan pendampingan.</p></div>
+    </section>
+
+    <section id="reflection" class="page">
+      <div class="page-heading"><span class="eyebrow">LANGKAH 01 · KENALI DIRI</span><h1>Refleksi Minat</h1><p>Jawab pertanyaan berikut sesuai keadaanmu. Tidak ada jawaban benar atau salah.</p></div>
+      <div class="panel quiz-panel">
+        <div class="progress-row"><span id="questionCount">Pertanyaan 1 dari 10</span><span id="progressPercent">10%</span></div>
+        <div class="progress"><span id="progressBar"></span></div>
+        <div id="questionArea"></div>
+        <div class="quiz-actions"><button class="btn secondary" id="prevQuestion">Kembali</button><button class="text-button" id="skipQuestion">Lewati</button><button class="btn primary" id="nextQuestion">Lanjut →</button></div>
+      </div>
+      <p class="micro-note center">Jawaban diproses di perangkat ini untuk membuat ringkasan eksplorasi. Jangan masukkan informasi pribadi atau sensitif.</p>
+    </section>
+
+    <section id="map" class="page">
+      <div class="page-heading"><span class="eyebrow">LANGKAH 02 · BACA RINGKASAN</span><h1>Peta Eksplorasi</h1><p>Gunakan ringkasan ini sebagai awal untuk mencari tahu lebih jauh.</p></div>
+      <div id="explorationResult" class="panel result-panel"></div>
+    </section>
+
+    <section id="careers" class="page">
+      <div class="page-heading"><span class="eyebrow">INFORMASI PEKERJAAN</span><h1>Jelajah Karier</h1><p>Kenali gambaran pekerjaan dan keterampilan yang dapat dipelajari.</p></div>
+      <label class="searchbox">⌕ <input id="careerSearch" type="search" placeholder="Cari profesi atau bidang..."></label>
+      <div id="careerGrid" class="career-grid"></div>
+      <p class="micro-note">Informasi merupakan gambaran umum. Persyaratan profesi dapat berbeda menurut pendidikan, tempat kerja, dan peraturan yang berlaku.</p>
+    </section>
+
+    <section id="study" class="page">
+      <div class="page-heading"><span class="eyebrow">MENGENAL PILIHAN PENDIDIKAN</span><h1>Studi Lanjut</h1><p>Bandingkan rumpun bidang pendidikan dan cari informasi lebih lanjut melalui sumber resmi.</p></div>
+      <div class="study-grid">
+        <article class="study-card"><span>01</span><h3>Pendidikan & Humaniora</h3><p>Contoh bidang: pendidikan, bahasa, sejarah, filsafat, dan ilmu sosial.</p><small>Pertimbangkan: minat mengajar, membaca, meneliti, dan memahami masyarakat.</small></article>
+        <article class="study-card"><span>02</span><h3>Sains & Teknologi</h3><p>Contoh bidang: matematika, biologi, kimia, fisika, informatika, dan teknik.</p><small>Pertimbangkan: ketertarikan pada eksperimen, pemecahan masalah, dan teknologi.</small></article>
+        <article class="study-card"><span>03</span><h3>Bisnis & Ekonomi</h3><p>Contoh bidang: manajemen, akuntansi, ekonomi, dan kewirausahaan.</p><small>Pertimbangkan: ketertarikan pada organisasi, data, layanan, dan usaha.</small></article>
+        <article class="study-card"><span>04</span><h3>Kesehatan</h3><p>Contoh bidang: kesehatan masyarakat, keperawatan, gizi, dan bidang kesehatan lain.</p><small>Pertimbangkan: ketertarikan pada ilmu kesehatan dan pelayanan manusia.</small></article>
+        <article class="study-card"><span>05</span><h3>Seni & Industri Kreatif</h3><p>Contoh bidang: desain, seni rupa, musik, film, komunikasi visual, dan media.</p><small>Pertimbangkan: ketertarikan pada ide, visual, ekspresi, dan karya kreatif.</small></article>
+        <article class="study-card"><span>06</span><h3>Sosial & Komunikasi</h3><p>Contoh bidang: psikologi, sosiologi, komunikasi, hukum, dan ilmu politik.</p><small>Pertimbangkan: ketertarikan pada perilaku, interaksi, masyarakat, dan advokasi.</small></article>
+      </div>
+      <div class="notice"><span>↗</span><p>Periksa kurikulum, akreditasi, persyaratan masuk, biaya, dan beasiswa melalui situs resmi perguruan tinggi serta portal pemerintah. Informasi penerimaan dapat berubah setiap tahun.</p></div>
+    </section>
+
+    <section id="plan" class="page">
+      <div class="page-heading"><span class="eyebrow">LANGKAH 03 · SUSUN TINDAKAN</span><h1>Rencana Karier</h1><p>Tuliskan langkah kecil yang ingin kamu lakukan. Rencana ini tersimpan di perangkat yang sedang digunakan.</p></div>
+      <form id="planForm" class="panel plan-form">
+        <label>Tujuan yang ingin dieksplorasi<input id="goal" required maxlength="120" placeholder="Contoh: mengenal jurusan yang berkaitan dengan desain"></label>
+        <label>Langkah yang akan dilakukan<textarea id="steps" required rows="3" maxlength="500" placeholder="Contoh: mencari informasi 3 program studi..."></textarea></label>
+        <div class="form-row"><label>Target waktu<input id="targetDate" type="date"></label><label>Dukungan yang dibutuhkan<input id="support" maxlength="120" placeholder="Contoh: berdiskusi dengan Guru BK"></label></div>
+        <label>Catatan refleksi<textarea id="reflectionNote" rows="2" maxlength="300" placeholder="Apa hal yang ingin kamu pelajari?"></textarea></label>
+        <button class="btn primary" type="submit">Simpan rencana</button>
+        <span id="saveMessage" class="save-message" aria-live="polite"></span>
+      </form>
+      <div class="saved-plan-wrap"><div class="section-heading"><div><span class="eyebrow">CATATANMU</span><h2>Rencana tersimpan</h2></div><button id="printPlan" class="text-button">Cetak / PDF ↗</button></div><div id="savedPlan" class="panel saved-plan">Belum ada rencana yang disimpan.</div></div>
+    </section>
+
+    <section id="counsel" class="page">
+      <div class="page-heading"><span class="eyebrow">PENDAMPINGAN</span><h1>Konsultasi dengan Guru BK</h1><p>Eksplorasi karier bisa menjadi lebih terarah ketika didiskusikan bersama orang yang tepat.</p></div>
+      <div class="panel counsel-panel"><div class="counsel-symbol">☏</div><div><h2>Kamu tidak harus menentukan semuanya sendiri.</h2><p>Guru BK dapat membantu membahas minat, pilihan pendidikan, informasi pekerjaan, dan langkah yang sesuai dengan situasimu.</p></div></div>
+      <div class="steps-grid"><article><b>01</b><h3>Siapkan hal yang ingin dibahas</h3><p>Catat bidang yang menarik, pertanyaan, dan informasi yang masih membingungkan.</p></article><article><b>02</b><h3>Hubungi Guru BK</h3><p>Gunakan jadwal, ruang BK, atau prosedur konsultasi yang berlaku di sekolahmu.</p></article><article><b>03</b><h3>Diskusikan beberapa pilihan</h3><p>Sampaikan pertimbanganmu dan tanyakan sumber informasi yang dapat dipercaya.</p></article></div>
+      <div class="notice"><span>🔒</span><p>Jaga kerahasiaan informasi pribadi. Website contoh ini tidak mengirim pesan kepada Guru BK dan tidak memiliki akun atau server penyimpanan data.</p></div>
+    </section>
+  </main>
+
+  <footer><span class="brand-mark small-mark">CM</span><span>CAREER MAP</span><span class="footer-note">Media eksplorasi minat dan informasi karier · Versi prototipe</span></footer> 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
