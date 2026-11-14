@@ -75,6 +75,8 @@ if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addE
 
 
 // ===================================
+
+// ===================================
 // FITUR AKUN CAREER MAP - SUPABASE
 // ===================================
 
@@ -119,13 +121,10 @@ document.getElementById('registerButton')?.addEventListener('click', async () =>
     if (error) throw error;
 
     if (data.session) {
-      currentSession = data.session;
-authReady = true;
-
-showAuthMessage('Login berhasil. Selamat datang di CAREER MAP!');
-showPage('home');
+      showAuthMessage('Pendaftaran berhasil. Selamat datang!');
+      showPage('home');
     } else {
-      showAuthMessage('Pendaftaran berhasil. Silakan periksa email untuk konfirmasi akun.');
+      showAuthMessage('Pendaftaran berhasil. Silakan konfirmasi melalui email terlebih dahulu.');
     }
   } catch (error) {
     showAuthMessage('Pendaftaran gagal: ' + error.message, true);
@@ -156,7 +155,10 @@ document.getElementById('loginButton')?.addEventListener('click', async () => {
 
     if (error) throw error;
 
-    showAuthMessage('Berhasil masuk dengan akun: ' + data.user.email);
+    currentSession = data.session;
+    authReady = true;
+    showAuthMessage('Login berhasil. Selamat datang!');
+    showPage('home');
   } catch (error) {
     showAuthMessage('Gagal masuk: ' + error.message, true);
   } finally {
@@ -164,39 +166,7 @@ document.getElementById('loginButton')?.addEventListener('click', async () => {
   }
 });
 
-// PERIKSA STATUS LOGIN SAAT HALAMAN DIBUKA
-async function checkAccountSession() {
-  const { data, error } = await window.supabaseClient.auth.getSession();
-
-  if (error) {
-    authReady = true;
-    currentSession = null;
-    showAuthMessage('Tidak dapat memeriksa sesi akun.', true);
-    showPage('account');
-    return;
-  }
-
-  currentSession = data.session;
-  authReady = true;
-
-  if (currentSession) {
-    showAuthMessage('Akun sedang masuk: ' + currentSession.user.email);
-    showPage('home');
-  } else {
-    showAuthMessage('Silakan masuk terlebih dahulu.');
-    showPage('account');
-  }
-
-  if (data.session) {
-    showAuthMessage('Akun sedang masuk: ' + data.session.user.email);
-  }
-}
-
-checkAccountSession();
-
-
-// MENAMPILKAN STATUS AKUN SECARA OTOMATIS
-// MENAMPILKAN STATUS AKUN SECARA OTOMATIS
+// PERIKSA STATUS LOGIN OTOMATIS
 window.supabaseClient.auth.onAuthStateChange((event, session) => {
   currentSession = session;
   authReady = true;
@@ -204,7 +174,7 @@ window.supabaseClient.auth.onAuthStateChange((event, session) => {
   if (session) {
     showAuthMessage('Akun sedang masuk: ' + session.user.email);
 
-    if (event === 'SIGNED_IN') {
+    if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN') {
       showPage('home');
     }
   } else {
@@ -212,17 +182,8 @@ window.supabaseClient.auth.onAuthStateChange((event, session) => {
     showPage('account');
   }
 });
-  if (session) {
-    showAuthMessage(
-      'Akun sedang masuk: ' + session.user.email
-    );
-  } else {
-    showAuthMessage('Kamu belum masuk ke akun.');
-  }
-});
 
-
- // FUNGSI KELUAR DARI AKUN
+// KELUAR DARI AKUN
 document.addEventListener('click', async (event) => {
   const button = event.target.closest('#logoutButton');
 
@@ -235,11 +196,12 @@ document.addEventListener('click', async (event) => {
 
     if (error) throw error;
 
+    currentSession = null;
     showAuthMessage('Kamu berhasil keluar dari akun.');
+    showPage('account');
   } catch (error) {
     showAuthMessage('Gagal keluar: ' + error.message, true);
   } finally {
     button.disabled = false;
   }
 });
-
