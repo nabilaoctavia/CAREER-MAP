@@ -79,8 +79,79 @@ const careers=[
 ['✚','Tenaga Kesehatan','Bekerja dalam layanan kesehatan sesuai pendidikan dan izin profesinya.','Ilmu kesehatan, komunikasi, ketelitian, empati.','Sosial & Pendidikan'],
 ['⌂','Perencana Lingkungan','Mempelajari dan membantu merancang pengelolaan lingkungan dan wilayah.','Analisis, sains, pemetaan, kerja lintas bidang.','Sains & Analisis']
 ];
-function renderCareers(filter=''){const list=careers.filter(c=>c.join(' ').toLowerCase().includes(filter.toLowerCase()));document.getElementById('careerGrid').innerHTML=list.length?list.map(c=>`<article class="career-card"><span class="career-symbol">${c[0]}</span><h3>${c[1]}</h3><p>${c[2]}</p><small><b>Keterampilan:</b> ${c[3]}</small><p><span class="chip">${c[4]}</span></p></article>`).join(''):'<p class="micro-note">Belum ada profesi yang cocok dengan pencarian tersebut.</p>'}
-document.getElementById('careerSearch').addEventListener('input',e=>renderCareers(e.target.value));renderCareers();
+function renderCareers(filter='') {
+  const list = careers.filter(c =>
+    c.join(' ').toLowerCase().includes(filter.toLowerCase())
+  );
+
+  const grid = document.getElementById('careerGrid');
+  const detail = document.getElementById('careerDetail');
+
+  if (detail) detail.hidden = true;
+
+  grid.innerHTML = list.length
+    ? list.map((c, index) => `
+      <article class="career-card"
+        data-career-index="${careers.indexOf(c)}"
+        tabindex="0"
+        role="button"
+        aria-label="Lihat detail ${c[1]}">
+
+        <span class="career-symbol">${c[0]}</span>
+        <h3>${c[1]}</h3>
+        <p>${c[2]}</p>
+        <small><b>Keterampilan:</b> ${c[3]}</small>
+        <p><span class="chip">${c[4]}</span></p>
+        <small><b>⤴ Klik untuk melihat detail</b></small>
+      </article>
+    `).join('')
+    : '<p class="micro-note">Belum ada profesi yang cocok dengan pencarian tersebut.</p>';
+}
+
+// Membuka detail saat kartu profesi diklik
+document.getElementById('careerGrid').addEventListener('click', e => {
+  const card = e.target.closest('.career-card');
+  if (!card) return;
+
+  const c = careers[Number(card.dataset.careerIndex)];
+  const detail = document.getElementById('careerDetail');
+  const content = document.getElementById('careerDetailContent');
+
+  if (!c || !detail || !content) return;
+
+  content.innerHTML = `
+    <span class="career-symbol">${c[0]}</span>
+    <h2>${c[1]}</h2>
+    <p>${c[2]}</p>
+
+    <h3>Bidang Karier</h3>
+    <p>${c[4]}</p>
+
+    <h3>Keterampilan yang Dibutuhkan</h3>
+    <p>${c[3]}</p>
+
+    <h3>Hal yang Dapat Dipelajari</h3>
+    <p>Pelajari pengetahuan dasar bidang ini, kembangkan keterampilan yang relevan, dan cari pengalaman melalui kegiatan belajar atau proyek sederhana.</p>
+
+    <h3>Catatan untuk Siswa</h3>
+    <p>Informasi ini merupakan gambaran awal untuk eksplorasi karier. Pilihan pendidikan dan persyaratan profesi dapat berbeda-beda.</p>
+  `;
+
+  detail.hidden = false;
+  detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+// Tombol tutup detail
+document.getElementById('closeCareerDetail').addEventListener('click', () => {
+  document.getElementById('careerDetail').hidden = true;
+});
+
+// Pencarian profesi
+document.getElementById('careerSearch').addEventListener('input', e => {
+  renderCareers(e.target.value);
+});
+
+renderCareers();
 document.getElementById('planForm').addEventListener('submit',e=>{e.preventDefault();const p={goal:goal.value,steps:document.getElementById('steps').value,date:targetDate.value,support:support.value,note:reflectionNote.value};localStorage.setItem('cmPlan',JSON.stringify(p));document.getElementById('saveMessage').textContent='Rencana tersimpan di perangkat ini.';renderSavedPlan()});
 function renderSavedPlan(){const p=JSON.parse(localStorage.getItem('cmPlan')||'null');document.getElementById('savedPlan').innerHTML=p?`<h3>${escapeHtml(p.goal)}</h3><p><b>Langkah:</b><br>${escapeHtml(p.steps)}</p><p><b>Target waktu:</b> ${escapeHtml(p.date||'Belum ditentukan')}</p><p><b>Dukungan:</b> ${escapeHtml(p.support||'Belum ditentukan')}</p><p><b>Refleksi:</b><br>${escapeHtml(p.note||'-')}</p>`:'Belum ada rencana yang disimpan.'}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
