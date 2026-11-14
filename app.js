@@ -199,6 +199,23 @@ document.addEventListener('click', async (event) => {
     currentSession = null;
     showAuthMessage('Kamu berhasil keluar dari akun.');
     showPage('account');
+    document.addEventListener('click', function(event) {
+  const target = event.target.closest('[data-page]');
+
+  if (!target) return;
+
+  event.preventDefault();
+
+  const pageId = target.dataset.page;
+
+  if (pageId) {
+    showPage(pageId);
+  }
+});
+
+document.getElementById('menuToggle')?.addEventListener('click', function() {
+  document.getElementById('mainNav')?.classList.toggle('open');
+});
   } catch (error) {
     showAuthMessage('Gagal keluar: ' + error.message, true);
   } finally {
