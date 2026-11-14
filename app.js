@@ -164,9 +164,13 @@ window.supabaseClient.auth.onAuthStateChange((event, session) => {
   }
 });
 
-// FUNGSI KELUAR DARI AKUN
-document.getElementById('logoutButton')?.addEventListener('click', async () => {
-  const button = document.getElementById('logoutButton');
+
+ // FUNGSI KELUAR DARI AKUN
+document.addEventListener('click', async (event) => {
+  const button = event.target.closest('#logoutButton');
+
+  if (!button) return;
+
   button.disabled = true;
 
   try {
