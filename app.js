@@ -151,3 +151,16 @@ async function checkAccountSession() {
 }
 
 checkAccountSession();
+
+
+// MENAMPILKAN STATUS AKUN SECARA OTOMATIS
+window.supabaseClient.auth.onAuthStateChange((event, session) => {
+  if (session) {
+    showAuthMessage(
+      'Akun sedang masuk: ' + session.user.email
+    );
+  } else {
+    showAuthMessage('Kamu belum masuk ke akun.');
+  }
+});
+
