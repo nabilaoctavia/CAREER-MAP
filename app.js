@@ -8,6 +8,21 @@ let currentSession = null;
 let authReady = false;
 
 function showPage(id) {
+  
+// EVENT NAVIGASI SEMUA MENU CAREER MAP
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('[data-page]');
+
+  if (!btn) return;
+
+  showPage(btn.dataset.page);
+});
+
+// TOMBOL HAMBURGER
+document.getElementById('menuToggle')?.addEventListener('click', function() {
+  document.getElementById('mainNav')?.classList.toggle('open');
+});
+
   // Pengguna yang belum login hanya boleh membuka halaman akun
   if (id !== 'account' && (!authReady || !currentSession)) {
     id = 'account';
