@@ -58,6 +58,7 @@ function showPage(id) {
 
   if (id === 'map') renderResult();
   if (id === 'plan') renderSavedPlan();
+  if (id === 'admin') loadAdminDashboard();
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
