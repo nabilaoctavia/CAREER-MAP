@@ -299,13 +299,23 @@ showPage('home');
 window.supabaseClient.auth.onAuthStateChange((event, session) => {
   currentSession = session;
   authReady = true;
-    // Mendeteksi pengguna yang membuka tautan pemulihan password
-  if (event === 'PASSWORD_RECOVERY') {
-    const resetBox = document.getElementById('resetPasswordBox');
+    // Mendeteksi proses pemulihan password
+const isRecovery =
+  event === 'PASSWORD_RECOVERY' ||
+  window.location.hash.includes('type=recovery') ||
+  new URLSearchParams(window.location.search).get('type') === 'recovery';
 
-    if (resetBox) {
-      resetBox.hidden = false;
-    }
+if (isRecovery) {
+  const resetBox = document.getElementById('resetPasswordBox');
+
+  if (resetBox) {
+    resetBox.hidden = false;
+  }
+
+  showPage('account');
+  showAuthMessage('Silakan buat kata sandi baru untuk akunmu.');
+  return;
+}
 
     showPage('account');
     showAuthMessage('Silakan buat kata sandi baru untuk akunmu.');
