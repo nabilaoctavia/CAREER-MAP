@@ -160,7 +160,74 @@
       <div class="steps-grid"><article><b>01</b><h3>Siapkan hal yang ingin dibahas</h3><p>Catat bidang yang menarik, pertanyaan, dan informasi yang masih membingungkan.</p></article><article><b>02</b><h3>Hubungi Guru BK</h3><p>Gunakan jadwal, ruang BK, atau prosedur konsultasi yang berlaku di sekolahmu.</p></article><article><b>03</b><h3>Diskusikan beberapa pilihan</h3><p>Sampaikan pertimbanganmu dan tanyakan sumber informasi yang dapat dipercaya.</p></article></div>
       <div class="notice"><span>🔒</span><p>Jaga kerahasiaan informasi pribadi. Website contoh ini tidak mengirim pesan kepada Guru BK dan tidak memiliki akun atau server penyimpanan data.</p></div>
     </section>
+  
+    <!-- ADMIN DASHBOARD -->
+    <section id="admin" class="page">
+      <div class="page-heading">
+        <span class="eyebrow">PENGELOLAAN CAREER MAP</span>
+        <h1>Dashboard Admin</h1>
+        <p>Kelola informasi pengguna dan pantau data CAREER MAP.</p>
+      </div>
+
+      <div class="admin-header">
+        <div>
+          <h2>Ringkasan Pengguna</h2>
+          <p>Informasi akun yang terdaftar di CAREER MAP.</p>
+        </div>
+      </div>
+
+      <div class="admin-stats">
+        <div class="admin-stat">
+          <small>Total Siswa</small>
+          <strong id="adminStudentCount">0</strong>
+          <span>Akun dengan peran siswa</span>
+        </div>
+        <div class="admin-stat">
+          <small>Total Guru BK</small>
+          <strong id="adminCounselorCount">0</strong>
+          <span>Akun dengan peran Guru BK</span>
+        </div>
+        <div class="admin-stat">
+          <small>Total Pengguna</small>
+          <strong id="adminTotalCount">0</strong>
+          <span>Seluruh akun terdaftar</span>
+        </div>
+      </div>
+
+      <div class="admin-section">
+        <h3>Daftar Siswa</h3>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Email</th>
+              <th>Tanggal Terdaftar</th>
+            </tr>
+          </thead>
+          <tbody id="adminStudentList">
+            <tr><td colspan="3" class="admin-empty">Data belum dimuat.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="admin-section">
+        <h3>Daftar Guru BK</h3>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Email</th>
+              <th>Tanggal Terdaftar</th>
+            </tr>
+          </thead>
+          <tbody id="adminCounselorList">
+            <tr><td colspan="3" class="admin-empty">Data belum dimuat.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
   </main>
+
 
   <footer><span class="brand-mark small-mark">CM</span><span>CAREER MAP</span><span class="footer-note">Media eksplorasi minat dan informasi karier · Versi prototipe</span></footer> 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
