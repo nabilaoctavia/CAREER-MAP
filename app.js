@@ -33,11 +33,18 @@ async function loadCurrentRole(session) {
 }
 
 
+
 function showPage(id) {
   // Pengguna yang belum login hanya boleh membuka halaman akun
   if (id !== 'account' && (!authReady || !currentSession)) {
     id = 'account';
   }
+
+  // Halaman admin hanya boleh dibuka oleh admin
+  if (id === 'admin' && currentRole !== 'admin') {
+    id = 'home';
+  }
+
 
   pages.forEach(p => {
     p.classList.toggle('active', p.id === id);
