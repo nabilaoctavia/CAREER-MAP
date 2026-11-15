@@ -410,3 +410,41 @@ async function loadAdminDashboard() {
   studentList.innerHTML = makeRows(students);
   counselorList.innerHTML = makeRows(counselors);
 }
+
+// ===================================
+// PEMULIHAN PASSWORD CAREER MAP
+// ===================================
+
+const saveNewPasswordButton = document.getElementById('saveNewPasswordButton');
+
+if (saveNewPasswordButton) {
+  saveNewPasswordButton.addEventListener('click', async () => {
+    const newPassword = document.getElementById('newPassword').value;
+
+    if (newPassword.length < 8) {
+      showAuthMessage('Kata sandi minimal 8 karakter.');
+      return;
+    }
+
+    saveNewPasswordButton.disabled = true;
+
+    const { error } = await window.supabaseClient.auth.updateUser({
+      password: newPassword
+    });
+
+    saveNewPasswordButton.disabled = false;
+
+    if (error) {
+      console.error('Gagal memperbarui password:', error);
+      showAuthMessage('Gagal memperbarui kata sandi: ' + error.message);
+      return;
+    }
+
+    showAuthMessage('Kata sandi berhasil diperbarui. Silakan masuk kembali.');
+
+    document.getElementById('resetPasswordBox').hidden = true;
+    document.getElementById('newPassword').value = '';
+
+    await window.supabaseClient.auth.signOut();
+  });
+}
