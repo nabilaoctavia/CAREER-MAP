@@ -65,8 +65,26 @@
     </label>
 
     <button class="btn secondary" id="registerButton" type="button">Daftar sebagai Siswa</button>
+<div id="resetPasswordBox" hidden>
+  <hr>
+  <h2>Buat Kata Sandi Baru</h2>
 
-    <p id="authMessage" class="save-message" aria-live="polite"></p>
+  <label>Kata Sandi Baru
+    <input
+      id="newPassword"
+      type="password"
+      placeholder="Masukkan kata sandi baru"
+      minlength="8"
+      autocomplete="new-password"
+    >
+  </label>
+
+  <button class="btn primary" id="saveNewPasswordButton" type="button">
+    Simpan Kata Sandi Baru
+  </button>
+</div>
+
+<p id="authMessage" class="save-message" aria-live="polite"></p>
     <button class="btn secondary" id="logoutButton" type="button">
   Keluar dari Akun
 </button>
