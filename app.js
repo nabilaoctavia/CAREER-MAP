@@ -299,6 +299,17 @@ showPage('home');
 window.supabaseClient.auth.onAuthStateChange((event, session) => {
   currentSession = session;
   authReady = true;
+    // Mendeteksi pengguna yang membuka tautan pemulihan password
+  if (event === 'PASSWORD_RECOVERY') {
+    const resetBox = document.getElementById('resetPasswordBox');
+
+    if (resetBox) {
+      resetBox.hidden = false;
+    }
+
+    showPage('account');
+    showAuthMessage('Silakan buat kata sandi baru untuk akunmu.');
+  }
 
   if (session) {
     showAuthMessage('Akun sedang masuk: ' + session.user.email);
