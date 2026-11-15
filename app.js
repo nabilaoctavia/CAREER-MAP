@@ -275,9 +275,17 @@ document.getElementById('loginButton')?.addEventListener('click', async () => {
     if (error) throw error;
 
     currentSession = data.session;
-    authReady = true;
-    showAuthMessage('Login berhasil. Selamat datang!');
-    showPage('home');
+authReady = true;
+
+await loadCurrentRole(data.session);
+
+showAuthMessage('Login berhasil. Selamat datang!');
+
+if (currentRole === 'admin') {
+  showAuthMessage('Login berhasil. Selamat datang, Admin!');
+}
+
+showPage('home');
   } catch (error) {
     showAuthMessage('Gagal masuk: ' + error.message, true);
   } finally {
@@ -286,6 +294,7 @@ document.getElementById('loginButton')?.addEventListener('click', async () => {
 });
 
 // PERIKSA STATUS LOGIN OTOMATIS
+
 window.supabaseClient.auth.onAuthStateChange((event, session) => {
   currentSession = session;
   authReady = true;
@@ -294,9 +303,23 @@ window.supabaseClient.auth.onAuthStateChange((event, session) => {
     showAuthMessage('Akun sedang masuk: ' + session.user.email);
 
     if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN') {
-      showPage('home');
+      Promise.resolve().then(async () => {
+        await loadCurrentRole(session);
+
+        const adminLink = document.getElementById('adminNavLink');
+        if (adminLink) {
+          adminLink.hidden = currentRole !== 'admin';
+        }
+
+        showPage('home');
+      });
     }
   } else {
+    currentRole = null;
+
+    const adminLink = document.getElementById('adminNavLink');
+    if (adminLink) adminLink.hidden = true;
+
     showAuthMessage('Silakan masuk terlebih dahulu.');
     showPage('account');
   }
