@@ -7,6 +7,32 @@ const pages = [...document.querySelectorAll('.page')];
 let currentSession = null;
 let authReady = false;
 
+let currentRole = null;
+
+// Mengambil role akun yang sedang login
+async function loadCurrentRole(session) {
+  if (!session?.user?.id) {
+    currentRole = null;
+    return;
+  }
+
+  const { data, error } = await window.supabaseClient
+    .from('profiles')
+    .select('role')
+    .eq('id', session.user.id)
+    .single();
+
+  if (error) {
+    currentRole = null;
+    console.error('Gagal memeriksa role:', error);
+    return;
+  }
+
+  currentRole = data.role;
+  console.log('Role akun:', currentRole);
+}
+
+
 function showPage(id) {
   // Pengguna yang belum login hanya boleh membuka halaman akun
   if (id !== 'account' && (!authReady || !currentSession)) {
