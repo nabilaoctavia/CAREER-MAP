@@ -253,6 +253,57 @@ document.getElementById('registerButton')?.addEventListener('click', async () =>
   }
 });
 
+
+// PENDAFTARAN AKUN GURU BK
+document.getElementById('counselorRegisterButton')?.addEventListener('click', async () => {
+  const name = document.getElementById('counselorName').value.trim();
+  const email = document.getElementById('counselorEmail').value.trim();
+  const password = document.getElementById('counselorPassword').value;
+  const school = document.getElementById('counselorSchool').value.trim();
+  const level = document.getElementById('counselorLevel').value;
+
+  if (!name || !email || !password || !school || !level) {
+    showAuthMessage('Semua data Guru BK harus diisi.', true);
+    return;
+  }
+
+  if (password.length < 8) {
+    showAuthMessage('Kata sandi minimal 8 karakter.', true);
+    return;
+  }
+
+  const button = document.getElementById('counselorRegisterButton');
+  button.disabled = true;
+  showAuthMessage('Sedang mengirim pengajuan Guru BK...');
+
+  try {
+    const { data, error } = await window.supabaseClient.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          account_type: 'counselor',
+          full_name: name,
+          school_name: school,
+          school_level: level
+        },
+        emailRedirectTo: 'https://nabilaoctavia.github.io/CAREER-MAP/'
+      }
+    });
+
+    if (error) throw error;
+
+    showAuthMessage(
+      'Pengajuan berhasil dikirim. Silakan konfirmasi email. Akun Guru BK menunggu persetujuan Admin.'
+    );
+
+  } catch (error) {
+    showAuthMessage('Pengajuan gagal: ' + error.message, true);
+  } finally {
+    button.disabled = false;
+  }
+});
+
 // MASUK KE AKUN
 document.getElementById('loginButton')?.addEventListener('click', async () => {
   const email = document.getElementById('loginEmail').value.trim();
