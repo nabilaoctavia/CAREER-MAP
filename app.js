@@ -314,7 +314,7 @@ if (isRecovery) {
 
   showPage('account');
   showAuthMessage('Silakan buat kata sandi baru untuk akunmu.');
-  return;
+    return;
   }
 
   if (session) {
