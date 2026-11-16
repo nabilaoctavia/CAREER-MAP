@@ -315,11 +315,6 @@ if (isRecovery) {
   showPage('account');
   showAuthMessage('Silakan buat kata sandi baru untuk akunmu.');
   return;
-}
-
-    showPage('account');
-    showAuthMessage('Silakan buat kata sandi baru untuk akunmu.');
-  }
 
   if (session) {
     showAuthMessage('Akun sedang masuk: ' + session.user.email);
