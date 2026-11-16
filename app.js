@@ -426,11 +426,159 @@ async function loadAdminDashboard() {
 
   const studentList = document.getElementById('adminStudentList');
   const counselorList = document.getElementById('adminCounselorList');
+  const applicationList = document.getElementById('adminApplicationList');
 
-  if (!studentList || !counselorList) {
+  if (!studentList || !counselorList || !applicationList) {
     console.error('Elemen Dashboard Admin tidak ditemukan.');
     return;
   }
+
+  studentList.innerHTML = '<tr><td colspan="3">Memuat data...</td></tr>';
+  counselorList.innerHTML = '<tr><td colspan="3">Memuat data...</td></tr>';
+  applicationList.innerHTML = '<tr><td colspan="6">Memuat pengajuan...</td></tr>';
+
+  const { data, error } = await window.supabaseClient.rpc(
+    'admin_get_user_summary'
+  );
+
+  if (error) {
+    console.error('Gagal mengambil data pengguna:', error);
+    return;
+  }
+
+  const { data: applications, error: applicationError } =
+    await window.supabaseClient
+      .from('counselor_applications')
+      .select('id,user_id,full_name,school_name,school_level,status,submitted_at')
+      .order('submitted_at', { ascending: false });
+
+  if (applicationError) {
+    console.error('Gagal mengambil pengajuan Guru BK:', applicationError);
+    applicationList.innerHTML =
+      '<tr><td colspan="6">Gagal memuat pengajuan.</td></tr>';
+    return;
+  }
+
+  const pendingApplications = applications.filter(
+    application => application.status === 'pending'
+  );
+
+  const pendingUserIds = new Set(
+    pendingApplications.map(application => application.user_id)
+  );
+
+  const students = data.filter(
+    user => user.role === 'student' && !pendingUserIds.has(user.id)
+  );
+
+  const counselors = data.filter(user => user.role === 'counselor');
+
+  document.getElementById('adminStudentCount').textContent = students.length;
+  document.getElementById('adminCounselorCount').textContent = counselors.length;
+  document.getElementById('adminTotalCount').textContent =
+    students.length + counselors.length + pendingApplications.length;
+
+  function makeRows(users) {
+    if (!users.length) {
+      return '<tr><td colspan="3">Belum ada data.</td></tr>';
+    }
+
+    return users.map(user => {
+      const name = escapeHtml(user.display_name || 'Tanpa nama');
+      const email = escapeHtml(user.email || '-');
+      const date = user.created_at
+        ? new Date(user.created_at).toLocaleDateString('id-ID')
+        : '-';
+
+      return `
+        <tr>
+          <td>${name}</td>
+          <td>${email}</td>
+          <td>${date}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  studentList.innerHTML = makeRows(students);
+  counselorList.innerHTML = makeRows(counselors);
+
+  if (!pendingApplications.length) {
+    applicationList.innerHTML =
+      '<tr><td colspan="6">Belum ada pengajuan yang menunggu persetujuan.</td></tr>';
+  } else {
+    applicationList.innerHTML = pendingApplications.map(application => {
+      const user = data.find(item => item.id === application.user_id);
+      const name = escapeHtml(application.full_name || 'Tanpa nama');
+      const email = escapeHtml(user?.email || '-');
+      const school = escapeHtml(application.school_name || '-');
+      const level = escapeHtml(application.school_level || '-');
+
+      return `
+        <tr>
+          <td>${name}</td>
+          <td>${email}</td>
+          <td>${school}</td>
+          <td>${level}</td>
+          <td>Menunggu</td>
+          <td>
+            <button
+              type="button"
+              data-review-application="approved"
+              data-application-id="${escapeHtml(application.id)}">
+              Setujui
+            </button>
+            <button
+              type="button"
+              data-review-application="rejected"
+              data-application-id="${escapeHtml(application.id)}">
+              Tolak
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  applicationList.onclick = async function(event) {
+    const button = event.target.closest('[data-review-application]');
+    if (!button) return;
+
+    const decision = button.dataset.reviewApplication;
+    const applicationId = button.dataset.applicationId;
+    const actionText = decision === 'approved' ? 'menyetujui' : 'menolak';
+
+    if (!confirm(`Yakin ingin ${actionText} pengajuan Guru BK ini?`)) {
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = 'Memproses...';
+
+    const { error: reviewError } = await window.supabaseClient.rpc(
+      'admin_review_counselor_application',
+      {
+        p_application_id: applicationId,
+        p_decision: decision
+      }
+    );
+
+    if (reviewError) {
+      console.error('Gagal memproses pengajuan:', reviewError);
+      alert('Pengajuan gagal diproses. Silakan periksa Console.');
+      await loadAdminDashboard();
+      return;
+    }
+
+    alert(
+      decision === 'approved'
+        ? 'Pengajuan Guru BK berhasil disetujui.'
+        : 'Pengajuan Guru BK berhasil ditolak.'
+    );
+
+    await loadAdminDashboard();
+  };
+}
 
   studentList.innerHTML = '<tr><td colspan="3">Memuat data...</td></tr>';
   counselorList.innerHTML = '<tr><td colspan="3">Memuat data...</td></tr>';
