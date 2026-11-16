@@ -315,6 +315,7 @@ if (isRecovery) {
   showPage('account');
   showAuthMessage('Silakan buat kata sandi baru untuk akunmu.');
   return;
+  }
 
   if (session) {
     showAuthMessage('Akun sedang masuk: ' + session.user.email);
