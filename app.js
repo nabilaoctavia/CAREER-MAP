@@ -580,52 +580,7 @@ async function loadAdminDashboard() {
   };
 }
 
-  studentList.innerHTML = '<tr><td colspan="3">Memuat data...</td></tr>';
-  counselorList.innerHTML = '<tr><td colspan="3">Memuat data...</td></tr>';
 
-  const { data, error } = await window.supabaseClient.rpc(
-    'admin_get_user_summary'
-  );
-
-  if (error) {
-    console.error('Gagal mengambil data admin:', error);
-    studentList.innerHTML = '<tr><td colspan="3">Gagal memuat data.</td></tr>';
-    counselorList.innerHTML = '<tr><td colspan="3">Gagal memuat data.</td></tr>';
-    return;
-  }
-
-  const students = data.filter(user => user.role === 'student');
-  const counselors = data.filter(user => user.role === 'counselor');
-
-  document.getElementById('adminStudentCount').textContent = students.length;
-  document.getElementById('adminCounselorCount').textContent = counselors.length;
-  document.getElementById('adminTotalCount').textContent = students.length + counselors.length;
-
-  function makeRows(users) {
-    if (!users.length) {
-      return '<tr><td colspan="3">Belum ada data.</td></tr>';
-    }
-
-    return users.map(user => {
-      const name = escapeHtml(user.display_name || 'Tanpa nama');
-      const email = escapeHtml(user.email || '-');
-      const date = user.created_at
-        ? new Date(user.created_at).toLocaleDateString('id-ID')
-        : '-';
-
-      return `
-        <tr>
-          <td>${name}</td>
-          <td>${email}</td>
-          <td>${date}</td>
-        </tr>
-      `;
-    }).join('');
-  }
-
-  studentList.innerHTML = makeRows(students);
-  counselorList.innerHTML = makeRows(counselors);
-}
 
 // ===================================
 // PEMULIHAN PASSWORD CAREER MAP
