@@ -619,3 +619,36 @@ if (saveNewPasswordButton) {
     await window.supabaseClient.auth.signOut();
   });
 }
+
+// TOMBOL LUPA PASSWORD
+const forgotPasswordButton = document.getElementById('forgotPasswordButton');
+
+if (forgotPasswordButton) {
+  forgotPasswordButton.addEventListener('click', async () => {
+    const email = document.getElementById('loginEmail').value.trim();
+
+    if (!email) {
+      showAuthMessage('Masukkan email akun Guru BK terlebih dahulu.', true);
+      return;
+    }
+
+    forgotPasswordButton.disabled = true;
+    showAuthMessage('Sedang mengirim email pemulihan...');
+
+    try {
+      const { error } = await window.supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://nabilaoctavia.github.io/CAREER-MAP/'
+      });
+
+      if (error) throw error;
+
+      showAuthMessage('Email pemulihan berhasil dikirim. Silakan periksa kotak masuk emailmu.');
+    } catch (error) {
+      showAuthMessage('Gagal mengirim email: ' + error.message, true);
+    } finally {
+      forgotPasswordButton.disabled = false;
+    }
+  });
+}
+
+
