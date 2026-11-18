@@ -35,10 +35,16 @@ async function loadCurrentRole(session) {
 
 
 function showPage(id) {
-  // Pengguna yang belum login hanya boleh membuka halaman akun
-  if (id !== 'account' && (!authReady || !currentSession)) {
+  // Menu dan seluruh halaman aplikasi hanya tersedia setelah login
+  if (id !== 'account' && (!authReady || !currentSession || !currentRole)) {
     id = 'account';
   }
+
+  // Tampilkan kerangka aplikasi (sidebar, header, footer) hanya untuk akun yang sudah login
+  document.body.classList.toggle(
+    'is-authenticated',
+    Boolean(authReady && currentSession && currentRole)
+  );
 
   // Halaman admin hanya boleh dibuka oleh admin
   if (id === 'admin' && currentRole !== 'admin') {

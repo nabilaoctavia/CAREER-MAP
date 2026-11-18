@@ -191,3 +191,29 @@ footer{margin-left:var(--sidebar-width)}
   main{padding:21px 15px 45px}
   .sidebar{width:min(285px,84vw)}
 }
+
+
+/* =========================================
+   MODE SEBELUM LOGIN — MENU DISEMBUNYIKAN
+   ========================================= */
+body:not(.is-authenticated) .sidebar,
+body:not(.is-authenticated) .sidebar-backdrop,
+body:not(.is-authenticated) .topbar,
+body:not(.is-authenticated) footer {
+  display: none !important;
+}
+body:not(.is-authenticated) main {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 900px;
+  padding: 28px 20px 60px;
+}
+body:not(.is-authenticated) #account .page-heading {
+  text-align: center;
+  margin-top: 12px;
+}
+body:not(.is-authenticated) #account .plan-form {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 560px;
+}
