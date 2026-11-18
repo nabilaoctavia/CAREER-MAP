@@ -345,26 +345,28 @@ showPage('home');
   }
 });
 
+
 // PERIKSA STATUS LOGIN OTOMATIS
 
 window.supabaseClient.auth.onAuthStateChange((event, session) => {
   currentSession = session;
   authReady = true;
-    // Mendeteksi proses pemulihan password
-const isRecovery =
-  event === 'PASSWORD_RECOVERY' ||
-  window.location.hash.includes('type=recovery') ||
-  new URLSearchParams(window.location.search).get('type') === 'recovery';
 
-if (isRecovery) {
-  const resetBox = document.getElementById('resetPasswordBox');
+  const params = new URLSearchParams(window.location.search);
+  const isRecovery =
+    event === 'PASSWORD_RECOVERY' ||
+    params.get('type') === 'recovery' ||
+    window.location.hash.includes('type=recovery');
 
-  if (resetBox) {
-    resetBox.hidden = false;
-  }
+  if (isRecovery) {
+    const resetBox = document.getElementById('resetPasswordBox');
 
-  showPage('account');
-  showAuthMessage('Silakan buat kata sandi baru untuk akunmu.');
+    if (resetBox) {
+      resetBox.hidden = false;
+    }
+
+    showPage('account');
+    showAuthMessage('Silakan buat kata sandi baru untuk akunmu.');
     return;
   }
 
@@ -393,6 +395,7 @@ if (isRecovery) {
     showPage('account');
   }
 });
+
 
 // KELUAR DARI AKUN
 document.addEventListener('click', async (event) => {
