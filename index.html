@@ -11,20 +11,45 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#" data-page="home"><span class="brand-mark">CM</span><span>CAREER <b>MAP</b><small>Explore your future</small></span></a>
-    <button class="menu-toggle" id="menuToggle" aria-label="Buka menu">☰</button>
-    <nav id="mainNav">
-      <button data-page="home" class="nav-link active">Beranda</button>
-      <button data-page="reflection" class="nav-link">Refleksi Minat</button>
-      <button data-page="map" class="nav-link">Peta Eksplorasi</button>
-      <button data-page="careers" class="nav-link">Jelajah Karier</button>
-      <button data-page="study" class="nav-link">Studi Lanjut</button>
-      <button data-page="plan" class="nav-link">Rencana Karier</button>
-      <button data-page="counsel" class="nav-link">Konsultasi BK</button>
-      <button data-page="admin" class="nav-link" id="adminNavLink" hidden>Admin</button>
-      <button data-page="account" class="nav-link">Akun</button>
+  <aside class="sidebar" id="sideBar" aria-label="Menu utama">
+    <div class="sidebar-brand">
+      <a class="brand" href="#" data-page="home">
+        <span class="brand-mark">CM</span>
+        <span>CAREER <b>MAP</b><small>Explore your future</small></span>
+      </a>
+      <button class="sidebar-close" id="sidebarClose" type="button" aria-label="Tutup menu">×</button>
+    </div>
+
+    <nav id="mainNav" class="side-nav">
+      <div class="nav-caption">MENU UTAMA</div>
+      <button data-page="home" class="nav-link active"><span class="nav-icon">⌂</span>Beranda</button>
+
+      <div class="nav-caption">EKSPLORASI DIRI</div>
+      <button data-page="reflection" class="nav-link"><span class="nav-icon">✎</span>Refleksi Minat</button>
+      <button data-page="map" class="nav-link"><span class="nav-icon">◎</span>Peta Eksplorasi</button>
+
+      <div class="nav-caption">INFORMASI KARIER</div>
+      <button data-page="careers" class="nav-link"><span class="nav-icon">⌕</span>Jelajah Karier</button>
+      <button data-page="study" class="nav-link"><span class="nav-icon">▤</span>Studi Lanjut</button>
+      <button data-page="plan" class="nav-link"><span class="nav-icon">✓</span>Rencana Karier</button>
+
+      <div class="nav-caption">LAYANAN PENGGUNA</div>
+      <button data-page="counsel" class="nav-link"><span class="nav-icon">♧</span>Konsultasi BK</button>
+      <button data-page="admin" class="nav-link" id="adminNavLink" hidden><span class="nav-icon">▦</span>Dashboard Admin</button>
+      <button data-page="account" class="nav-link"><span class="nav-icon">◉</span>Akun Saya</button>
     </nav>
+
+    <div class="sidebar-footer">
+      <span class="sidebar-footer-mark">CM</span>
+      <span><b>CAREER MAP</b><small>Temukan arah masa depanmu</small></span>
+    </div>
+  </aside>
+  <button class="sidebar-backdrop" id="sidebarBackdrop" type="button" aria-label="Tutup menu"></button>
+
+  <header class="topbar">
+    <button class="menu-toggle" id="menuToggle" aria-label="Buka menu" aria-expanded="false">☰</button>
+    <div class="topbar-title"><span class="eyebrow">CAREER MAP</span><strong>Ruang Eksplorasi Karier</strong></div>
+    <div class="topbar-mark">CM</div>
   </header>
 
   <main>

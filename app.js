@@ -54,7 +54,9 @@ function showPage(id) {
     b.classList.toggle('active', b.dataset.page === id);
   });
 
-  document.getElementById('mainNav')?.classList.remove('open');
+  document.getElementById('sideBar')?.classList.remove('open');
+  document.getElementById('sidebarBackdrop')?.classList.remove('visible');
+  document.getElementById('menuToggle')?.setAttribute('aria-expanded', 'false');
 
   if (id === 'map') renderResult();
   if (id === 'plan') renderSavedPlan();
@@ -72,10 +74,24 @@ document.addEventListener('click', function(event) {
   showPage(target.dataset.page);
 });
 
-// TOMBOL HAMBURGER
+// BUKA / TUTUP MENU SAMPING
+function closeSidebar() {
+  document.getElementById('sideBar')?.classList.remove('open');
+  document.getElementById('sidebarBackdrop')?.classList.remove('visible');
+  document.getElementById('menuToggle')?.setAttribute('aria-expanded', 'false');
+}
+
 document.getElementById('menuToggle')?.addEventListener('click', function() {
-  document.getElementById('mainNav')?.classList.toggle('open');
+  const sidebar = document.getElementById('sideBar');
+  const backdrop = document.getElementById('sidebarBackdrop');
+  const willOpen = !sidebar?.classList.contains('open');
+  sidebar?.classList.toggle('open', willOpen);
+  backdrop?.classList.toggle('visible', willOpen);
+  this.setAttribute('aria-expanded', String(willOpen));
 });
+
+document.getElementById('sidebarClose')?.addEventListener('click', closeSidebar);
+document.getElementById('sidebarBackdrop')?.addEventListener('click', closeSidebar);
 
 // TAMPILKAN HALAMAN AWAL
 showPage('account');
